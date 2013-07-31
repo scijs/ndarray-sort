@@ -16,17 +16,21 @@ require("tape")("ndarray-sort-1d", function(t) {
     var nd0 = ndarray(new Uint16Array(arr))
     var nd1 = ndarray(new Float32Array(10*arr.length)).step(10)
     var nd2 = ndarray(new Int32Array(arr)).step(-1)
+    var nd3 = ndarray(new Array(arr.length))
     ops.assign(nd1, nd0)
+    ops.assign(nd3, nd0)
     
     ndsort(nd0)
     ndsort(nd1)
     ndsort(nd2)
+    ndsort(nd3)
     arr.sort(function (a,b) { return a-b })
     
     for(var i=0; i<n; ++i) {
       t.equals(nd0.get(i), arr[i], "flat")
       t.equals(nd1.get(i), arr[i], "skip")
       t.equals(nd2.get(i), arr[i], "reverse")
+      t.equals(nd3.get(i), arr[i], "array")
     }
   }
   
@@ -74,8 +78,10 @@ require("tape")("ndarray-sort-2d", function(t) {
     ops.assign(nd4, nd0)
     
     var nd5 = ndarray(new Uint32Array(nr*nc), [nc,nr])
-    
     ops.assign(nd5, nd0.transpose(1,0))
+    
+    var nd6 = ndarray(new Array(nr*nc), [nr,nc])
+    ops.assign(nd6, nd0)
     
     ndsort(nd0)
     ndsort(nd1)
@@ -83,6 +89,7 @@ require("tape")("ndarray-sort-2d", function(t) {
     ndsort(nd3)
     ndsort(nd4)
     ndsort(nd5,1)
+    ndsort(nd6)
     arr.sort(compare1D)
     
     for(var i=0; i<nr; ++i) {
@@ -93,6 +100,7 @@ require("tape")("ndarray-sort-2d", function(t) {
         t.equals(nd3.get(i,j), arr[i][j], "flipx")
         t.equals(nd4.get(i,j), arr[i][j], "flipy")
         t.equals(nd5.get(j,i), arr[i][j], "alt-axis")
+        t.equals(nd6.get(i,j), arr[i][j], "array")
       }
     }
   }
