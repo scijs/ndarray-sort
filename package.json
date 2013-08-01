@@ -14,7 +14,8 @@
     "ndarray-pack": "~1.0.1",
     "ndarray": "~1.0.5",
     "ndarray-unpack": "~0.0.0",
-    "tape": "~1.0.4"
+    "tape": "~1.0.4",
+    "crossfilter": "~1.2.0"
   },
   "scripts": {
     "test": "tap test/*.js"
