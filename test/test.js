@@ -104,44 +104,40 @@ require("tape")("ndarray-sort-2d", function(t) {
     ops.assign(nd7, nd0)
     
     ndsort(nd0)
-    //ndsort(nd1)
-    //ndsort(nd2)
-    //ndsort(nd3)
-    //ndsort(nd4)
-    //ndsort(nd6)
+    ndsort(nd1)
+    ndsort(nd2)
+    ndsort(nd3)
+    ndsort(nd4)
+    ndsort(nd6)
+    ndsort(nd7)
     arr.sort(compare1D)
-    
-    console.log(arr)
-    console.log(unpack(nd0))
     
     for(var i=0; i<nr; ++i) {
       for(var j=0; j<nc; ++j) {
         t.equals(nd0.get(i,j), arr[i][j], "flat")
-        /*
         t.equals(nd1.get(i,j), arr[i][j], "transpose")
         t.equals(nd2.get(i,j), arr[i][j], "stride")
         t.equals(nd3.get(i,j), arr[i][j], "flipx")
         t.equals(nd4.get(i,j), arr[i][j], "flipy")
         t.equals(nd6.get(i,j), arr[i][j], "array")
         t.equals(nd7.get(i,j), arr[i][j], "generic")
-        */
       }
     }
   }
 
-  //runTest2D(3, 2)
-  //runTest2D(3,1)
-  //runTest2D(32, 3)
-  //runTest2D(10, 10)
+  runTest2D(3, 2)
+  runTest2D(3,1)
+  runTest2D(32, 3)
+  runTest2D(10, 10)
   runTest2D(100,3)
-  //runTest2D(32,1)
-  //runTest2D(3,10)
-  //runTest2D(1,32)
+  runTest2D(1000,3)
+  runTest2D(32,1)
+  runTest2D(3,10)
+  runTest2D(1,32)
   
   t.end()
 })
 
-/*
 require("tape")("ndarray-sort-3d", function(t) {
   function compare2D(a, b) {
     for(var i=0; i<a.length; ++i) {
@@ -214,4 +210,3 @@ require("tape")("ndarray-sort-3d", function(t) {
   
   t.end()
 })
-*/
