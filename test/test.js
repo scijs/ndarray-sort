@@ -44,7 +44,6 @@ require("tape")("ndarray-sort-1d", function(t) {
 })
 
 require("tape")("ndarray-sort-2d", function(t) {
-  
   function compare1D(a, b) {
     for(var i=0; i<a.length; ++i) {
       var d = a[i] - b[i]
@@ -77,9 +76,6 @@ require("tape")("ndarray-sort-2d", function(t) {
     var nd4 = pack(arr).step(1, -1)
     ops.assign(nd4, nd0)
     
-    var nd5 = ndarray(new Uint32Array(nr*nc), [nc,nr])
-    ops.assign(nd5, nd0.transpose(1,0))
-    
     var nd6 = ndarray(new Array(nr*nc), [nr,nc])
     ops.assign(nd6, nd0)
     
@@ -88,7 +84,6 @@ require("tape")("ndarray-sort-2d", function(t) {
     ndsort(nd2)
     ndsort(nd3)
     ndsort(nd4)
-    ndsort(nd5,1)
     ndsort(nd6)
     arr.sort(compare1D)
     
@@ -99,7 +94,6 @@ require("tape")("ndarray-sort-2d", function(t) {
         t.equals(nd2.get(i,j), arr[i][j], "stride")
         t.equals(nd3.get(i,j), arr[i][j], "flipx")
         t.equals(nd4.get(i,j), arr[i][j], "flipy")
-        t.equals(nd5.get(j,i), arr[i][j], "alt-axis")
         t.equals(nd6.get(i,j), arr[i][j], "array")
       }
     }
@@ -116,3 +110,77 @@ require("tape")("ndarray-sort-2d", function(t) {
   
   t.end()
 })
+
+require("tape")("ndarray-sort-3d", function(t) {
+  function compare2D(a, b) {
+    for(var i=0; i<a.length; ++i) {
+      for(var j=0; j<a[i].length; ++j) {
+        var d = a[i][j] - b[i][j]
+        if(d) { return d }
+      }
+    }
+    return 0
+  }
+  
+  function create3DArray(nr, nc, np) {
+    var result = new Array(nr)
+    for(var i=0; i<nr; ++i) {
+      result[i] = new Array(nc)
+      for(var j=0; j<nc; ++j) {
+        result[i][j] = new Array(np)
+        for(var k=0; k<np; ++k) {
+          result[i][j][k] = Math.floor(Math.random()*3)
+        }
+      }
+    }
+    return result
+  }
+  
+  function runTest3D(nr, nc, np) {
+    var arr = create3DArray(nr, nc, np)
+    var nd0 = pack(arr)
+    
+    var nd1 = ndarray(new Uint32Array(nr * nc * np), [nc, np, nr]).transpose(2, 0, 1)
+    ops.assign(nd1, nd0)
+
+    var nd2 = ndarray(new Uint32Array(nr * nc * np), [np, nc, nr]).transpose(2, 1, 0)
+    ops.assign(nd2, nd0)
+    
+    var nd3 = ndarray(new Uint32Array(nr * nc * np), [np, nr, nc]).transpose(1, 2, 0)
+    ops.assign(nd3, nd0)
+    
+    var nd4 = ndarray(new Uint32Array(nr*nc*np), [nr, nc, np])
+    ops.assign(nd4, nd0)
+    
+    ndsort(nd0)
+    ndsort(nd1)
+    ndsort(nd2)
+    ndsort(nd3)
+    ndsort(nd4)
+    arr.sort(compare2D)
+    
+    for(var i=0; i<nr; ++i) {
+      for(var j=0; j<nc; ++j) {
+        for(var k=0; k<np; ++k) {
+          t.equals(nd0.get(i,j,k), arr[i][j][k], "flat")
+          t.equals(nd1.get(i,j,k), arr[i][j][k], "transposed1")
+          t.equals(nd2.get(i,j,k), arr[i][j][k], "transposed2")
+          t.equals(nd3.get(i,j,k), arr[i][j][k], "transposed3")
+          t.equals(nd4.get(i,j,k), arr[i][j][k], "transposed4")
+
+        }
+      }
+    }
+  }
+
+  runTest3D(3, 3, 3)
+  runTest3D(1, 10, 10)
+  runTest3D(100, 2, 2)
+  runTest3D(100, 1, 2)
+  runTest3D(100, 2, 1)
+  runTest3D(10, 5, 8)
+  
+  
+  t.end()
+})
+
