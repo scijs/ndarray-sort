@@ -6,25 +6,42 @@ var pack = require("ndarray-pack")
 var unpack = require("ndarray-unpack")
 var ops = require("ndarray-ops")
 
-/*
+
+function genericArray(shape) {
+  var n = 1
+  for(var i=0; i<shape.length; ++i) {
+    n *= shape[i]
+  }
+  var storage = {
+    _data: new Array(n),
+    get: function(i) { return this._data[i] },
+    set: function(i,v) { return this._data[i]=v }
+  }
+  return ndarray(storage, shape)
+}
+
+
 require("tape")("ndarray-sort-1d", function(t) {
   function runTest(n) {
     var arr = new Array(n)
     for(var i=0; i<n; ++i) {
-      arr[i] = Math.floor(Math.random() * 1000)
+      arr[i] = Math.floor(Math.random() * 10)
     }
     
     var nd0 = ndarray(new Uint16Array(arr))
     var nd1 = ndarray(new Float32Array(10*arr.length)).step(10)
     var nd2 = ndarray(new Int32Array(arr)).step(-1)
     var nd3 = ndarray(new Array(arr.length))
+    var nd4 = genericArray([n])
     ops.assign(nd1, nd0)
     ops.assign(nd3, nd0)
+    ops.assign(nd4, nd0)
     
     ndsort(nd0)
     ndsort(nd1)
     ndsort(nd2)
     ndsort(nd3)
+    ndsort(nd4)
     arr.sort(function (a,b) { return a-b })
     
     for(var i=0; i<n; ++i) {
@@ -32,6 +49,7 @@ require("tape")("ndarray-sort-1d", function(t) {
       t.equals(nd1.get(i), arr[i], "skip")
       t.equals(nd2.get(i), arr[i], "reverse")
       t.equals(nd3.get(i), arr[i], "array")
+      t.equals(nd4.get(i), arr[i], "generic")
     }
   }
   
@@ -40,11 +58,12 @@ require("tape")("ndarray-sort-1d", function(t) {
   runTest(16)
   runTest(32)
   runTest(100)
+  runTest(10000)
 
   t.end()
 })
-*/
 
+/*
 require("tape")("ndarray-sort-2d", function(t) {
   function compare1D(a, b) {
     for(var i=0; i<a.length; ++i) {
@@ -185,4 +204,4 @@ require("tape")("ndarray-sort-3d", function(t) {
   
   t.end()
 })
-
+*/
