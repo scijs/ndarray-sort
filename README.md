@@ -39,6 +39,8 @@ Sorts the given array along the first axis in lexicographic order.  The sorting 
 
 * `array` is an ndarray
 
+**Returns** `array`
+
 ## Credits
 Based on Google Dart's dual pivot quick sort implementation by Ola Martin Bini and Michael Haubenwallner.  For more information see lib/dart/AUTHORS and lib/dart/LICENSE
 

@@ -1,6 +1,6 @@
 {
   "name": "ndarray-sort",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Sorts ndarrays in place",
   "main": "sort.js",
   "directories": {

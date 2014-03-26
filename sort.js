@@ -13,6 +13,7 @@ function sort(array) {
     CACHE[typeName] = compiled = compile(order, dtype)
   }
   compiled(array)
+  return array
 }
 
 module.exports = sort
