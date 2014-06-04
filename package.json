@@ -1,24 +1,24 @@
 {
   "name": "ndarray-sort",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Sorts ndarrays in place",
   "main": "sort.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "typedarray-pool": "~0.1.1"
+    "typedarray-pool": "^1.0.0"
   },
   "devDependencies": {
     "ndarray-ops": "~1.1.1",
     "ndarray-pack": "~1.0.1",
     "ndarray": "~1.0.5",
     "ndarray-unpack": "~0.0.0",
-    "tape": "~1.0.4",
-    "crossfilter": "~1.2.0"
+    "crossfilter": "~1.2.0",
+    "tape": "^2.13.2"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tape test/*.js"
   },
   "repository": {
     "type": "git",
